@@ -1,5 +1,8 @@
-# LambertProblem
+# Lambert's Problem in Julia
 
-[![Build Status](https://travis-ci.com/Naoya Ozaki/LambertProblem.jl.svg?branch=main)](https://travis-ci.com/Naoya Ozaki/LambertProblem.jl)
-[![Coverage](https://codecov.io/gh/Naoya Ozaki/LambertProblem.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/Naoya Ozaki/LambertProblem.jl)
-[![Coverage](https://coveralls.io/repos/github/Naoya Ozaki/LambertProblem.jl/badge.svg?branch=main)](https://coveralls.io/github/Naoya Ozaki/LambertProblem.jl?branch=main)
+This module provides the solver of Lambert's problem that computes the initial and final velocity vectors for given initial and final position vectors and time of flight.
+
+Reference:
+[1] Dario Izzo, "Revisiting Lambert's problem", Celestial Mechanics and Dynamical Astoronomy, 2015, Vol 121, pp 1-15.
+[2] R. H. Battin, "An Introduction to the Mathematics and Methods of Astrodynamics, Revised Version", 1999, AIAA Education Series.
+[3] PyKEP (https://esa.github.io/pykep/) access on Jul.2022.
