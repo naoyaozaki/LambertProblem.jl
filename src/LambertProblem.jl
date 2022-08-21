@@ -145,7 +145,7 @@ module LambertProblem
 
             else # Hyperbola
                 α = 2.0*acosh(x)
-                β = 2.0*asinh(λ/sqrt(a))
+                β = 2.0*asinh(λ/sqrt(-a))
                 tof = - 0.5 * (-a)^(3/2)*( (α-sinh(α)) - (β-sinh(β)) ) # Non dimensinal TOF
 
             end
@@ -153,8 +153,8 @@ module LambertProblem
         elseif (Δx < Δx_battin)
             # Use Battin Series TOF Expression
             ρ = abs(x^2 - 1.0)
-            y = sqrt(1.0 + λ^2*(x^2 - 1.0))
-            η = y - λ*x
+            z = sqrt(1.0 + λ^2*(x^2 - 1.0))
+            η = z - λ*x
             s1 = 0.5*(1.0 - λ - x*η)
             q = 4.0/3.0*hypergeometric_₂F₁(s1)
             tof = (η^3*q + 4.0*λ*η)/2.0 + m_max*π/(ρ^1.5)
@@ -162,14 +162,14 @@ module LambertProblem
         else
             # Use Lancaster TOF Expression
             e = x^2 - 1.0
-            ρ = sqrt(abs(e))
-            y = sqrt(1.0 + λ^2*e)
+            z = sqrt(1.0 + λ^2*e)
+            y = sqrt(abs(e))
             if (e<0.0)
-                d = m_max*π + acos(x*y - λ*e)
+                d = m_max*π + acos(x*z-λ*e)
             else
-                d = log(ρ*(y-λ*x) + (x*y-λ*e))
+                d = log(abs(y*(z-λ*x) + (x*z-λ*e))) # TODO: y*(z-λ*x) + (x*z-λ*e) might be negative number
             end
-            tof = (x - λ*y - d/ρ)/e
+            tof = (x - λ*z - d/y)/e
 
         end 
 
