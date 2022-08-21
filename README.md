@@ -10,15 +10,15 @@ This module provides the solver of Lambert's problem that computes the initial a
 
 3. Activate the `LambertProblem` package by typing
 
+```
+activate .
+```
+
 4. Add the Lambert's problem package by typing `add LambertProblem`
 
 5. (If necessary) Run test code by typing `test` in the package mode
 
 6. Exit the package mode by typing delete
-
-```
-activate .
-```
 
 # Reference
 
