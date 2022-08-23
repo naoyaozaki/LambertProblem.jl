@@ -265,18 +265,20 @@ module LambertProblem
         """
         iter = 0
         while true
+            # if xn < -1.0
+            #     @show iter, xn, tof, λ, m
+            # end
             tn = x2tof(xn,λ,m)
-            yn = sqrt(1.0 - λ^2*(1.0-xn^2))
             # Eqs.(22) in Ref[1]
             f(x,t) = t-tof
-            df_dx(x,t) = (3.0*t*x - 2.0 + 2.0*λ^3*x/yn)/(1.0-x^2)
-            d2f_dx2(x,t) = (3.0*t + 5.0*x*df_dx(x,t) + 2.0*(1.0-λ^2)*(λ^3)/(yn^3))/(1.0-x^2)
-            d3f_dx3(x,t) = (7.0*x*d2f_dx2(x,t) + 8.0*df_dx(x,t) - 6.0*(1.0-λ^2)*(λ^5)*x/(yn^5))/(1.0-x^2)
+            df_dx(x,t) = (3.0*t*x - 2.0 + 2.0*λ^3*x/sqrt(1.0 - λ^2*(1.0-x^2)))/(1.0-x^2)
+            d2f_dx2(x,t) = (3.0*t + 5.0*x*df_dx(x,t) + 2.0*(1.0-λ^2)*(λ^3)/(sqrt(1.0 - λ^2*(1.0-x^2))^3))/(1.0-x^2)
+            d3f_dx3(x,t) = (7.0*x*d2f_dx2(x,t) + 8.0*df_dx(x,t) - 6.0*(1.0-λ^2)*(λ^5)*x/(sqrt(1.0 - λ^2*(1.0-x^2))^5))/(1.0-x^2)
 
             # Householder's Method
             xn_new = xn - f(xn,tn)*( 
                 (df_dx(xn,tn)^2 - 0.5*f(xn,tn)*d2f_dx2(xn,tn))
-                / (df_dx(xn,tn)*(df_dx(xn,tn)^2 - f(xn,tn)*d2f_dx2(xn,tn)) + d3f_dx3(xn,tn)*(f(xn,tn)^2)/6.0 )
+                / (df_dx(xn,tn)*((df_dx(xn,tn)^2) - f(xn,tn)*d2f_dx2(xn,tn)) + d3f_dx3(xn,tn)*(f(xn,tn)^2)/6.0 )
             ) 
 
             # Break condition
@@ -304,11 +306,10 @@ module LambertProblem
         """
         iter = 0
         while true
-            yn = sqrt(1.0 - λ^2*(1.0-xn^2))
             # Eqs.(22) in Ref[1]
-            dt_dx(x,t) = (3.0*t*x - 2.0 + 2.0*λ^3*x/yn)/(1.0-x^2)
-            d2t_dx2(x,t) = (3.0*t + 5.0*x*dt_dx(x,t) + 2.0*(1.0-λ^2)*(λ^3)/(yn^3))/(1.0-x^2)
-            d3t_dx3(x,t) = (7.0*x*d2t_dx2(x,t) + 8.0*dt_dx(x,t) - 6.0*(1.0-λ^2)*(λ^5)*x/(yn^5))/(1.0-x^2)
+            dt_dx(x,t) = (3.0*t*x - 2.0 + 2.0*λ^3*x/sqrt(1.0 - λ^2*(1.0-x^2)))/(1.0-x^2)
+            d2t_dx2(x,t) = (3.0*t + 5.0*x*dt_dx(x,t) + 2.0*(1.0-λ^2)*(λ^3)/(sqrt(1.0 - λ^2*(1.0-x^2))^3))/(1.0-x^2)
+            d3t_dx3(x,t) = (7.0*x*d2t_dx2(x,t) + 8.0*dt_dx(x,t) - 6.0*(1.0-λ^2)*(λ^5)*x/(sqrt(1.0 - λ^2*(1.0-x^2))^5))/(1.0-x^2)
 
             # Halley's Method
             xn_new = xn - (2.0*dt_dx(xn,tn)*d2t_dx2(xn,tn))/(2.0*(d2t_dx2(xn,tn)^2) - dt_dx(xn,tn)*d3t_dx3(xn,tn))
