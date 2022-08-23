@@ -99,7 +99,7 @@ module LambertProblem
 
 
         # 2. Calculate x
-        iter_all, x_all = find_xy(λ,tof_nomdim,2)
+        iter_all, x_all = find_xy(λ,tof_nomdim,multi_revs)
 
 
         # 3. Calculate Terminal Velocities
@@ -167,7 +167,7 @@ module LambertProblem
             if (e<0.0)
                 d = m_max*π + acos(x*z-λ*e)
             else
-                d = log(abs(y*(z-λ*x) + (x*z-λ*e))) # TODO: y*(z-λ*x) + (x*z-λ*e) might be negative number
+                d = log(y*(z-λ*x) + (x*z-λ*e))
             end
             tof = (x - λ*z - d/y)/e
 
@@ -265,9 +265,6 @@ module LambertProblem
         """
         iter = 0
         while true
-            # if xn < -1.0
-            #     @show iter, xn, tof, λ, m
-            # end
             tn = x2tof(xn,λ,m)
             # Eqs.(22) in Ref[1]
             f(x,t) = t-tof
