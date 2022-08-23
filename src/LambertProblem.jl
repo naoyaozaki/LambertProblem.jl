@@ -232,11 +232,11 @@ module LambertProblem
         # 2.1. Single Revolution Solution
         # Initial guess
         if tof >= t_00
-            x_all[1] = (t_00/tof)^(2/3) - 1.0
+            x_all[1] = -(tof-t_00)/(tof-t_00+4.0) #(t_00/tof)^(2/3) - 1.0
         elseif tof <= t_1
             x_all[1] =  (5.0*t_1*(t_1-tof))/(2.0*tof*(1-λ^5)) + 1.0
         else
-            x_all[1] = (t_00/tof)^(log2(t_1/t_00)) - 1.0
+            x_all[1] = (tof/t_00)^(log(2.0)/log(t_1/t_00)) - 1.0  #(t_00/tof)^(log2(t_1/t_00)) - 1.0
         end
 
         # Householder iterations
