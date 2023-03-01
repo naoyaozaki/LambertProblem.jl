@@ -53,10 +53,10 @@ Reference:
 function lambert_problem(r1, r2, tof, μ, multi_revs; is_retrograde=false)
     # 0. Sanity Check
     if tof <= 0
-        error("ERROR: Time of flight must be positive!")
+        @error "ERROR: Time of flight must be positive!"
     end
     if μ <= 0
-        error("ERROR: Gravity parameter must be positive!")
+        @error "ERROR: Gravity parameter must be positive!"
     end
 
 
@@ -77,7 +77,7 @@ function lambert_problem(r1, r2, tof, μ, multi_revs; is_retrograde=false)
     # NOTE: ivec_h cannot be defined if r1 // r2
 
     if ivec_h[3] == 0.0
-        error("ERROR: The angular momentum vector has no z component, impossible to define automatically clock or counterclockwise!")
+        @error "ERROR: The angular momentum vector has no z component, impossible to define automatically clock or counterclockwise!"
     elseif ivec_h[3] < 0.0
         λ = -sqrt(λ2)
         ivec_t1 = -cross(ivec_h, ivec_r1)
@@ -167,7 +167,7 @@ function x2tof(x, λ, m_max, Δx_battin=0.01, Δx_lagrange=0.2)
             if d_temp > 0.0
                 d = log(d_temp)
             else
-                println("WARNING: Fail to Calculate TOF using Lancaster TOF Expression.")
+                @info "Fail to Calculate TOF using Lancaster TOF Expression."
                 return NaN
             end
         end
@@ -191,7 +191,7 @@ function hypergeometric_₂F₁(z, a=3.0, b=1.0, c=2.5, tol=1.0e-11)
         sj, cj = sj1, cj1
         j += 1
         if j > 1000
-            println("ERROR: Hypergeometric Function Reaches Maximum Iteration.")
+            @error "ERROR: Hypergeometric Function Reaches Maximum Iteration."
             break
         end
     end
@@ -202,10 +202,10 @@ end
 function find_xy(λ, tof, m_multi_revs)
     # Requirements
     if abs(λ) >= 1
-        error("ERROR: Lambda must be more than 1.")
+        @error "ERROR: Lambda must be more than 1."
     end
     if tof < 0
-        error("ERROR: Non dimensional tof must be a positive number.")
+        @error "ERROR: Non dimensional tof must be a positive number."
     end
 
     # ----------------
@@ -292,7 +292,7 @@ function find_x_by_householder(tof, xn, λ, m, tol_Δx=1.0e-8, max_iter=15)
             tn = x2tof(xn_new, λ, m)
             return iter, xn_new
         elseif iter > max_iter
-            println("Householder iteration reaches maximum iteration!")
+            @info "Householder iteration reaches maximum iteration!"
             tn = x2tof(xn_new, λ, m)
             return iter, xn_new
         end
@@ -325,7 +325,7 @@ function find_tof_min_by_halley_method(xn, tn, λ, m_max, tol_Δx=1.0e-13, max_i
             tn = x2tof(xn_new, λ, m_max)
             return xn_new, tn
         elseif iter > max_iter
-            println("Halley iteration reaches maximum iteration!")
+            @info "Halley iteration reaches maximum iteration!"
             tn = x2tof(xn_new, λ, m_max)
             return xn_new, tn
         end
