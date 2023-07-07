@@ -11,7 +11,8 @@ This module provides the solver of Lambert's problem that computes the initial a
 3. Activate the `LambertProblem` package by typing
 
 ```
-activate .
+pkg> activate .
+pkg> instantiate
 ```
 
 4. Add the Lambert's problem package by typing `add LambertProblem`
