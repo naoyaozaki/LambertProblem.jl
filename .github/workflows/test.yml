@@ -9,6 +9,9 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    # 定期実行する時間・・・①
+    - cron: '0 0 1 * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
